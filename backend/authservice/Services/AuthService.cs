@@ -5,6 +5,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
+using authservice.Enums;
 
 namespace authservice.Services;
 
@@ -16,6 +17,61 @@ public class AuthService : IAuthService
     public AuthService(IConfiguration config)
     {
         _config = config;
+        CriarUsuariosPadrao();
+    }
+    private static void CriarUsuariosPadrao()
+    {
+        if (Usuarios.Any())
+            return;
+
+        Usuarios.Add(new Usuario
+        {
+            Id = Guid.Parse("11111111-1111-1111-1111-111111111111"),
+            Nome = "Administrador",
+            Email = "admin@teste.com",
+            SenhaHash = BCrypt.Net.BCrypt.HashPassword("12345678"),
+            Role = RoleUsuario.Administrador,
+            Ativo = true
+        });
+    }
+    public void Register(RegisterRequest request)
+    {
+        var emailExistente = Usuarios.Any(u => u.Email == request.Email);
+
+        if (emailExistente)
+            throw new Exception("E-mail já cadastrado.");
+
+        var usuario = new Usuario
+        {
+            Id = Guid.NewGuid(),
+            Nome = request.Nome,
+            Email = request.Email,
+            SenhaHash = BCrypt.Net.BCrypt.HashPassword(request.Senha),
+            Role = RoleUsuario.Consulta,
+            Ativo = true,
+        };
+
+        Usuarios.Add(usuario);
+    }
+
+    public LoginResponse Login(LoginRequest request)
+    {
+        var usuario = Usuarios.FirstOrDefault(u => u.Email == request.Email);
+        if (usuario == null)
+            throw new Exception("Dados de acesso incorretos.");
+        var senhaUsuario = BCrypt.Net.BCrypt.Verify(
+            request.Senha,
+            usuario.SenhaHash
+        );
+        if (!senhaUsuario)
+            throw new Exception("Dados de acesso incorretos.");
+
+        var expirarToken = DateTime.UtcNow.AddHours(1);
+        return new LoginResponse
+        {
+            AccessToken = GerarToken(usuario, expirarToken),
+            Expiration = expirarToken
+        };
     }
     private string GerarToken(Usuario usuario, DateTime expirarToken)
     {
@@ -41,42 +97,17 @@ public class AuthService : IAuthService
         
         return new JwtSecurityTokenHandler().WriteToken(token);
     }   
-    public LoginResponse Login(LoginRequest request)
+    public void AlterarRole(Guid usuarioId, AlterarRoleRequest request)
     {
-        var usuario = Usuarios.FirstOrDefault(u => u.Email == request.Email);
+        var usuario = Usuarios.FirstOrDefault(u => u.Id == usuarioId);
+
         if (usuario == null)
-            throw new Exception("Dados de acesso incorretos.");
-        var senhaUsuario = BCrypt.Net.BCrypt.Verify(
-            request.Senha,
-            usuario.SenhaHash
-        );
-        if (!senhaUsuario)
-            throw new Exception("Dados de acesso incorretos.");
+            throw new Exception("Dados não encontrados.");
 
-        var expirarToken = DateTime.UtcNow.AddHours(1);
-        return new LoginResponse
-        {
-            AccessToken = GerarToken(usuario, expirarToken),
-            Expiration = expirarToken
-        };
+        usuario.Role = request.Role;
     }
-    public void Register(RegisterRequest request)
+    public List<Usuario> ListarUsuarios()
     {
-        var emailExistente = Usuarios.Any(u => u.Email == request.Email);
-
-        if (emailExistente)
-            throw new Exception("E-mail já cadastrado.");
-
-        var usuario = new Usuario
-        {
-            Id = Guid.NewGuid(),
-            Nome = request.Nome,
-            Email = request.Email,
-            SenhaHash = BCrypt.Net.BCrypt.HashPassword(request.Senha),
-            Role = request.Role,
-            Ativo = true,
-        };
-
-        Usuarios.Add(usuario);
+        return Usuarios;
     }
 }

@@ -59,4 +59,25 @@ public class AuthController : ControllerBase
         });
     }
 
+    [Authorize(Roles = "Administrador")]
+    [HttpPut("usuarios/{id}/role")]
+    public IActionResult AlterarRole(Guid id, AlterarRoleRequest request)
+    {
+        // apenas usuários admins podem alterar a role de outro usuário
+        _authService.AlterarRole(id, request);
+        return Ok(new
+        {
+            mensagem = "Role alterada com sucesso."
+        });
+    }
+    
+    [Authorize(Roles = "Administrador")]
+    [HttpGet("usuarios")]
+    public IActionResult ListarUsuarios()
+    {
+        var usuarios = _authService.ListarUsuarios();
+
+        return Ok(usuarios);
+    }
+
 }

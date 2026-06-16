@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\User\\Desktop\\teste\\backend\\authservice\\authservice.csproj": {}
+    "C:\\Users\\User\\devONRTDPJ\\devONRTDPJ\\backend\\authservice\\authservice.csproj": {}
   },
   "projects": {
-    "C:\\Users\\User\\Desktop\\teste\\backend\\authservice\\authservice.csproj": {
+    "C:\\Users\\User\\devONRTDPJ\\devONRTDPJ\\backend\\authservice\\authservice.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\User\\Desktop\\teste\\backend\\authservice\\authservice.csproj",
+        "projectUniqueName": "C:\\Users\\User\\devONRTDPJ\\devONRTDPJ\\backend\\authservice\\authservice.csproj",
         "projectName": "authservice",
-        "projectPath": "C:\\Users\\User\\Desktop\\teste\\backend\\authservice\\authservice.csproj",
+        "projectPath": "C:\\Users\\User\\devONRTDPJ\\devONRTDPJ\\backend\\authservice\\authservice.csproj",
         "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\User\\Desktop\\teste\\backend\\authservice\\obj\\",
+        "outputPath": "C:\\Users\\User\\devONRTDPJ\\devONRTDPJ\\backend\\authservice\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -24,6 +24,7 @@
         },
         "frameworks": {
           "net10.0": {
+            "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {}
           }
@@ -38,10 +39,11 @@
           "auditLevel": "low",
           "auditMode": "all"
         },
-        "SdkAnalysisLevel": "10.0.200"
+        "SdkAnalysisLevel": "10.0.300"
       },
       "frameworks": {
         "net10.0": {
+          "framework": "net10.0",
           "targetAlias": "net10.0",
           "dependencies": {
             "BCrypt.Net-Next": {
@@ -80,7 +82,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.203/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.300/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.AspNetCore": "(,10.0.32767]",
             "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",
