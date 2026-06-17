@@ -6,20 +6,21 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using authservice.Enums;
+using authservice.Data;
 
 namespace authservice.Services;
 
 public class AuthService : IAuthService
 {
-    private static readonly List<Usuario> Usuarios = new();
     private readonly IConfiguration _config;
+    private readonly AuthDbContext _context;
 
-    public AuthService(IConfiguration config)
+    public AuthService(IConfiguration config, AuthDbContext context)
     {
         _config = config;
-        CriarUsuariosPadrao();
+        _context = context;
     }
-    private static void CriarUsuariosPadrao()
+ /*   private static void CriarUsuariosPadrao()
     {
         if (Usuarios.Any())
             return;
@@ -34,9 +35,10 @@ public class AuthService : IAuthService
             Ativo = true
         });
     }
+*/
     public void Register(RegisterRequest request)
     {
-        var emailExistente = Usuarios.Any(u => u.Email == request.Email);
+        var emailExistente = _context.Usuarios.Any(u => u.Email == request.Email);
 
         if (emailExistente)
             throw new Exception("E-mail já cadastrado.");
@@ -51,12 +53,13 @@ public class AuthService : IAuthService
             Ativo = true,
         };
 
-        Usuarios.Add(usuario);
+        _context.Usuarios.Add(usuario);
+        _context.SaveChanges();
     }
 
     public LoginResponse Login(LoginRequest request)
     {
-        var usuario = Usuarios.FirstOrDefault(u => u.Email == request.Email);
+        var usuario = _context.Usuarios.FirstOrDefault(u => u.Email == request.Email);
         if (usuario == null)
             throw new Exception("Dados de acesso incorretos.");
         var senhaUsuario = BCrypt.Net.BCrypt.Verify(
@@ -99,15 +102,16 @@ public class AuthService : IAuthService
     }   
     public void AlterarRole(Guid usuarioId, AlterarRoleRequest request)
     {
-        var usuario = Usuarios.FirstOrDefault(u => u.Id == usuarioId);
+        var usuario = _context.Usuarios.FirstOrDefault(u => u.Id == usuarioId);
 
         if (usuario == null)
             throw new Exception("Dados não encontrados.");
 
         usuario.Role = request.Role;
+        _context.SaveChanges();
     }
     public List<Usuario> ListarUsuarios()
     {
-        return Usuarios;
+        return _context.Usuarios.ToList();
     }
 }
