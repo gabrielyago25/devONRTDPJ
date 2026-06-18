@@ -14,27 +14,34 @@ public static class CpfCnpjValidador
             _ => false
         };
     }
-    public static bool CpfValido(string cpf)
+    private static bool CpfValido(string cpf)
     {
+        if (cpf.Length != 11)
+            return false;
+
         if (cpf.Distinct().Count() == 1)
             return false;
-        
+
         var soma = 0;
+
         for (int i = 0; i < 9; i++)
-            soma += (cpf[i] - '0') * (10-1);
+            soma += int.Parse(cpf[i].ToString()) * (10 - i);
 
-            var digito1 = soma % 11 < 2 ? 0 : 11 - soma % 11;
+        var resto = soma % 11;
+        var digito1 = resto < 2 ? 0 : 11 - resto;
 
-            if (digito1 != cpf[9] - '0')
-                return false;
+        if (digito1 != int.Parse(cpf[9].ToString()))
+            return false;
 
-            soma = 0;
+        soma = 0;
 
-            for (int i = 0; i < 10; i++)
-                soma += (cpf[i] - '0') * (11 - i);
-            
-            var digito2 = soma % 11 < 2 ? 0 : 11 - soma % 11;
-                return digito2 == cpf[10] - '0';
+        for (int i = 0; i < 10; i++)
+            soma += int.Parse(cpf[i].ToString()) * (11 - i);
+
+        resto = soma % 11;
+        var digito2 = resto < 2 ? 0 : 11 - resto;
+
+        return digito2 == int.Parse(cpf[10].ToString());
     }
 
     public static bool CnpjValido (string cnpj)
