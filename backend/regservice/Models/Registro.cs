@@ -23,4 +23,6 @@ public class Registro
     public DateTime DataCriado { get; set; } = DateTime.UtcNow;
 
     public DateTime DataAtualizado { get; set; } = DateTime.UtcNow;
+
+    public string teste;
 }
