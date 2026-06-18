@@ -12,7 +12,24 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+    {
+        options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+        {
+            Type = SecuritySchemeType.Http,
+            Scheme = "Bearer",
+            BearerFormat = "JWT",
+            In = ParameterLocation.Header,
+            Description = "Digite o Token JWT:"
+        });
+        options.AddSecurityRequirement(document => new OpenApiSecurityRequirement
+        {
+            {
+                new OpenApiSecuritySchemeReference("Bearer", document),
+                new List<string>()
+            }
+        });
+    });
 
 builder.Services.AddDbContext<RegDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -41,27 +58,10 @@ builder.Services.AddScoped<IRegistroService, RegistroService>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+
 if (app.Environment.IsDevelopment())
 {
-    builder.Services.AddSwaggerGen(options =>
-    {
-        options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-        {
-            Type = SecuritySchemeType.Http,
-            Scheme = "Bearer",
-            BearerFormat = "JWT",
-            In = ParameterLocation.Header,
-            Description = "Digite o Token JWT no formato: Bearer {seu token}"
-        });
-        options.AddSecurityRequirement(document => new OpenApiSecurityRequirement
-        {
-            {
-                new OpenApiSecuritySchemeReference("Bearer", document),
-                new List<string>()
-            }
-        });
-    });
+    app.UseSwagger();
     app.UseSwaggerUI();
 }
 
