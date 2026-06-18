@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="authservice.tests/authservice.tests.csproj" />
+  <Project Path="authservice/authservice.csproj" />
+  <Project Path="regservice.tests/regservice.tests.csproj" />
+  <Project Path="regservice/regservice.csproj" />
+</Solution>
