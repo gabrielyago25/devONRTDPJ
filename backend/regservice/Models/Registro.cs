@@ -24,5 +24,4 @@ public class Registro
 
     public DateTime DataAtualizado { get; set; } = DateTime.UtcNow;
 
-    public string teste;
 }
