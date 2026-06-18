@@ -21,7 +21,7 @@ public static class CpfCnpjValidador
         
         var soma = 0;
         for (int i = 0; i < 9; i++)
-            soma =+ (cpf[i] - '0') * (10-1);
+            soma += (cpf[i] - '0') * (10-1);
 
             var digito1 = soma % 11 < 2 ? 0 : 11 - soma % 11;
 
