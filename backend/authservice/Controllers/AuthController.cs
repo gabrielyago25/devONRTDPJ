@@ -21,8 +21,8 @@ public class AuthController : ControllerBase
     public IActionResult Login(LoginRequest request)
     {
         try {
-        var retorno = _authService.Login(request);
-        return Ok(retorno);
+            var retorno = _authService.Login(request);
+            return Ok(retorno);
         }
         catch
         {
@@ -33,8 +33,18 @@ public class AuthController : ControllerBase
     [HttpPost("register")]
     public IActionResult Register(RegisterRequest request)
     {
-        _authService.Register(request);
-        return Ok("Usuário cadastrado com sucesso.");
+        try
+        {
+            _authService.Register(request);
+            return Created("", new
+         {
+             mensagem = "Usuário cadastrado com sucesso."
+         });   
+        }
+        catch (Exception ex)
+        {
+            return Conflict(new {mensagem = ex.Message});
+        }
     }
 
     [Authorize]
