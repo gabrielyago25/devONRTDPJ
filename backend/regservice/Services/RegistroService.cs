@@ -25,6 +25,7 @@ public class RegistroService : IRegistroService
             Id = Guid.NewGuid(),
             Tipo  = request.Tipo,
             NomeApresentante = request.NomeApresentante,
+            CpfCnpj = request.CpfCnpj,
             DataEntrada = request.DataEntrada,
             Status = StatusRegistro.PENDENTE,
             Observacoes = request.Observacoes,
@@ -69,7 +70,7 @@ public class RegistroService : IRegistroService
     {
         var registro = _context.Registros.FirstOrDefault(r => r.Id == id);
         if(registro == null)
-            throw new Exception("Registro não encontrado");
+            throw new RegistroNaoEncontrado();
 
         registro.Tipo = request.Tipo;
         registro.NomeApresentante = request.NomeApresentante;
@@ -85,7 +86,7 @@ public class RegistroService : IRegistroService
     {
         var registro = _context.Registros.FirstOrDefault(r => r.Id == id);
         if (registro == null)
-            throw new Exception("Registro não encontrado");
+            throw new RegistroNaoEncontrado();
         
         if (!MudancaStatusValida(registro.Status, request.Status))
             throw new MudancaStatusIncorreta();
@@ -102,7 +103,7 @@ public class RegistroService : IRegistroService
         var registro = _context.Registros.FirstOrDefault(r => r.Id == id);
 
         if (registro == null)
-            throw new Exception("Registro não encontrado");
+            throw new RegistroNaoEncontrado();
         
         _context.Registros.Remove(registro);
         _context.SaveChanges();
