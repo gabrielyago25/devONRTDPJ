@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using regservice.Data;
+using regservice.Interfaces;
+using regservice.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +13,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<RegDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("Default Connection")));
+builder.Services.AddDbContext<RegDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -31,6 +33,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             )
         };
     });
+
+builder.Services.AddScoped<IRegistroService, RegistroService>();
 
 var app = builder.Build();
 

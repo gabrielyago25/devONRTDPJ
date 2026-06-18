@@ -9,4 +9,5 @@ public interface IRegistroService
     RegistroResponse BuscarPorId(Guid id);
     RegistroResponse AtualizarRegistro(Guid id, AtualizarRegistroRequest request);
     RegistroResponse AtualizarStatus(Guid id, AtualizarStatusRequest request);
+    void ExcluirRegistro(Guid id);
 }

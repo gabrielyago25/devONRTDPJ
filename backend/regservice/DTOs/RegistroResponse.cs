@@ -12,6 +12,6 @@ public class RegistroResponse
     public StatusRegistro Status { get; set; }
     public string? Observacoes { get; set; }
     public Guid CriadoPor { get; set; }
-    public DateTime CriadoEm { get; set; }
-    public DateTime AtualizadoEm { get; set; }
+    public DateTime DataCriado { get; set; }
+    public DateTime DataAtualizado { get; set; }
 }
