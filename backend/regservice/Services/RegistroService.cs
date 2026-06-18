@@ -4,6 +4,7 @@ using regservice.DTOs;
 using regservice.Enums;
 using regservice.Interfaces;
 using regservice.Models;
+using regservice.Validators;
 
 namespace regservice.Services;
 
@@ -16,6 +17,8 @@ public class RegistroService : IRegistroService
     }
     public RegistroResponse CriarRegistro(RegistroRequest request, Guid usuarioId)
     {
+        if (!CpfCnpjValidador.Valido(request.CpfCnpj))
+            throw new Exception("CPF/CNPJ inválido.");
         var registro = new Registro
         {
             Id = Guid.NewGuid(),
@@ -42,8 +45,8 @@ public class RegistroService : IRegistroService
         if (filtro.Status.HasValue)
             consulta = consulta.Where(r => r.Status == filtro.Status.Value);
 
-        var pagina = filtro.Page< 1 ? 1 : filtro.Page;
-        var limite = filtro.Limit< 1 ? 10 : filtro.Limit;
+        var pagina = filtro.Pagina< 1 ? 1 : filtro.Pagina;
+        var limite = filtro.Limite< 1 ? 10 : filtro.Limite;
 
 
         return consulta
