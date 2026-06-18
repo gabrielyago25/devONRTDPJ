@@ -29,9 +29,9 @@ public class RegistroController : ControllerBase
     // listar registros - autorização administrador, registrador e consulta
     [Authorize(Roles = "Administrador,Registrador,Consulta")]
     [HttpGet]
-    public IActionResult ListarRegistros()
+    public IActionResult ListarRegistros([FromQuery] FiltroRegistroRequest filtro)
     {
-        var registros = _registroService.ListarRegistros();
+        var registros = _registroService.ListarRegistros(filtro);
         return Ok(registros);
     }
     // buscar registro por id - autorização administrador, registrador e consulta

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using regservice.Data;
 using regservice.DTOs;
 using regservice.Enums;
@@ -31,9 +32,26 @@ public class RegistroService : IRegistroService
         _context.SaveChanges();
         return MapearResponse(registro);
     }
-    public IEnumerable<RegistroResponse> ListarRegistros()
+    public IEnumerable<RegistroResponse> ListarRegistros(FiltroRegistroRequest filtro)
     {
-        return _context.Registros.Select(registro => MapearResponse(registro)).ToList();
+        var consulta = _context.Registros.AsQueryable();
+
+        if (filtro.Tipo.HasValue)
+            consulta = consulta.Where(r => r.Tipo == filtro.Tipo.Value);
+
+        if (filtro.Status.HasValue)
+            consulta = consulta.Where(r => r.Status == filtro.Status.Value);
+
+        var pagina = filtro.Page< 1 ? 1 : filtro.Page;
+        var limite = filtro.Limit< 1 ? 10 : filtro.Limit;
+
+
+        return consulta
+        .OrderByDescending(r => r.DataCriado)
+        .Skip((pagina -1) * limite)
+        .Take(limite)
+        .Select(registro => MapearResponse(registro))
+        .ToList();
     }
     public RegistroResponse BuscarPorId(Guid id)
     {

@@ -5,7 +5,7 @@ namespace regservice.Interfaces;
 public interface IRegistroService
 {
     RegistroResponse CriarRegistro(RegistroRequest request, Guid usuarioId);
-    IEnumerable<RegistroResponse> ListarRegistros();
+    IEnumerable<RegistroResponse> ListarRegistros(FiltroRegistroRequest filtro);
     RegistroResponse BuscarPorId(Guid id);
     RegistroResponse AtualizarRegistro(Guid id, AtualizarRegistroRequest request);
     RegistroResponse AtualizarStatus(Guid id, AtualizarStatusRequest request);
