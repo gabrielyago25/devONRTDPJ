@@ -5,6 +5,7 @@ using regservice.Enums;
 using regservice.Interfaces;
 using regservice.Models;
 using regservice.Validators;
+using regservice.Exceptions;
 
 namespace regservice.Services;
 
@@ -60,7 +61,7 @@ public class RegistroService : IRegistroService
     {
         var registro = _context.Registros.FirstOrDefault(r => r.Id == id);
         if (registro == null)
-            throw new Exception("Registro não encontrado");
+            throw new RegistroNaoEncontrado();
 
         return MapearResponse(registro);
     }
@@ -87,7 +88,7 @@ public class RegistroService : IRegistroService
             throw new Exception("Registro não encontrado");
         
         if (!MudancaStatusValida(registro.Status, request.Status))
-            throw new Exception("Mudança de status inválida.");
+            throw new MudancaStatusIncorreta();
 
         registro.Status = request.Status;
         registro.DataAtualizado = DateTime.UtcNow;
