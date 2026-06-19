@@ -71,6 +71,9 @@ public class RegistroService : IRegistroService
         var registro = _context.Registros.FirstOrDefault(r => r.Id == id);
         if(registro == null)
             throw new RegistroNaoEncontrado();
+        
+        if (!CpfCnpjValidador.Valido(request.CpfCnpj))
+            throw new Exception("CPF/CNPJ inválido.");
 
         registro.Tipo = request.Tipo;
         registro.NomeApresentante = request.NomeApresentante;
