@@ -29,9 +29,13 @@ public class RegistroController : ControllerBase
             var response = _registroService.CriarRegistro(request, usuarioId);
             return CreatedAtAction(nameof(BuscarPorId), new {id = response.Id}, response);
         }
-        catch (Exception ex)
+        catch (CpfCnpjInvalido ex)
         {
             return BadRequest(new {mensagem = ex.Message});
+        }
+        catch (Exception)
+        {
+            return StatusCode(500, new {mensagem = "Erro ao criar o registro."});
         }
     }
     // listar registros - autorização administrador, registrador e consulta
@@ -69,9 +73,12 @@ public class RegistroController : ControllerBase
         {
             return NotFound(new {mensagem = ex.Message});
         } 
-        catch (Exception ex)
+        catch (CpfCnpjInvalido ex)
         {
-            return BadRequest(new {mensagem = ex.Message});
+            return BadRequest(new
+            {
+                mensagem = ex.Message
+            });
         }
     }
     // atualização de status - autorização administrador e registrador

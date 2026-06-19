@@ -19,7 +19,7 @@ public class RegistroService : IRegistroService
     public RegistroResponse CriarRegistro(RegistroRequest request, Guid usuarioId)
     {
         if (!CpfCnpjValidador.Valido(request.CpfCnpj))
-            throw new Exception("CPF/CNPJ inválido.");
+            throw new CpfCnpjInvalido();
         var registro = new Registro
         {
             Id = Guid.NewGuid(),
@@ -73,7 +73,7 @@ public class RegistroService : IRegistroService
             throw new RegistroNaoEncontrado();
         
         if (!CpfCnpjValidador.Valido(request.CpfCnpj))
-            throw new Exception("CPF/CNPJ inválido.");
+            throw new CpfCnpjInvalido();
 
         registro.Tipo = request.Tipo;
         registro.NomeApresentante = request.NomeApresentante;

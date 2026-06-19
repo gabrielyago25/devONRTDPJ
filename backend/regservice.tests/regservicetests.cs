@@ -60,7 +60,7 @@ public class RegistroServiceTests
 
         Action act = () => service.CriarRegistro(request, Guid.Parse("11111111-1111-1111-1111-111111111111"));
 
-        act.Should().Throw<Exception>().WithMessage("CPF/CNPJ inválido.");
+        act.Should().Throw<CpfCnpjInvalido>();
     }
 
     [Fact]
@@ -86,7 +86,7 @@ public class RegistroServiceTests
     }
 
     [Fact]
-    public void CriarRegistro_ComCnpjInvalido_DeveLancarExcecao()
+    public void RegistroCNPJInvalido()
     {
         var context = CriarContexto();
         var service = CriarRegistro(context);
@@ -102,7 +102,7 @@ public class RegistroServiceTests
 
         Action act = () => service.CriarRegistro(request, Guid.NewGuid());
 
-        act.Should().Throw<Exception>().WithMessage("CPF/CNPJ inválido.");
+        act.Should().Throw<CpfCnpjInvalido>();
     }
 
     [Fact]
