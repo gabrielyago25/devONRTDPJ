@@ -64,6 +64,48 @@ public class RegistroServiceTests
     }
 
     [Fact]
+    public void RegistroCNPJValido()
+    {
+        var context = CriarContexto();
+        var service = CriarRegistro(context);
+
+        var request = new RegistroRequest
+    {
+        Tipo = TipoRegistro.CONTRATO,
+        NomeApresentante = "Empresa Teste Registro",
+        CpfCnpj = "11222333000181",
+        DataEntrada = DateOnly.FromDateTime(DateTime.UtcNow),
+        Observacoes = "Teste com CNPJ"
+    };
+
+        var resultado = service.CriarRegistro(request, Guid.NewGuid());
+
+        resultado.Should().NotBeNull();
+        resultado.CpfCnpj.Should().Be("11222333000181");
+        context.Registros.Count().Should().Be(1);
+    }
+
+    [Fact]
+    public void CriarRegistro_ComCnpjInvalido_DeveLancarExcecao()
+    {
+        var context = CriarContexto();
+        var service = CriarRegistro(context);
+
+        var request = new RegistroRequest
+        {
+            Tipo = TipoRegistro.CONTRATO,
+            NomeApresentante = "Empresa Teste Registro",
+            CpfCnpj = "11111111111111",
+            DataEntrada = DateOnly.FromDateTime(DateTime.UtcNow),
+            Observacoes = "Teste com CNPJ inválido"
+        };
+
+        Action act = () => service.CriarRegistro(request, Guid.NewGuid());
+
+        act.Should().Throw<Exception>().WithMessage("CPF/CNPJ inválido.");
+    }
+
+    [Fact]
     public void PendenteParaRegistradoAtualizaStatus()
     {
         var contexto = CriarContexto();
