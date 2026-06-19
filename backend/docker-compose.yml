@@ -1,0 +1,76 @@
+services:
+  authdb:
+    image: postgres:17
+    container_name: authdb
+    environment:
+      POSTGRES_DB: authdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+    ports:
+      - "5433:5432"
+    volumes:
+      - authdb_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d authdb"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  regdb:
+    image: postgres:17
+    container_name: regdb
+    environment:
+      POSTGRES_DB: regdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+    ports:
+      - "5434:5432"
+    volumes:
+      - regdb_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d regdb"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  authservice:
+    build:
+      context: ./authservice
+      dockerfile: Dockerfile
+    container_name: authservice
+    depends_on:
+      authdb:
+        condition: service_healthy
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:8080
+      ConnectionStrings__DefaultConnection: Host=authdb;Port=5432;Database=authdb;Username=postgres;Password=1234
+      Jwt__Key: EaS1k*904FckjS34h***3/@fFkjAlkDs
+      Jwt__Issuer: AuthService
+      Jwt__Audience: AuthServiceUsers
+    ports:
+      - "5001:8080"
+
+  regservice:
+    build:
+      context: ./regservice
+      dockerfile: Dockerfile
+    container_name: regservice
+    depends_on:
+      regdb:
+        condition: service_healthy
+      authservice:
+        condition: service_started
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:8080
+      ConnectionStrings__DefaultConnection: Host=regdb;Port=5432;Database=regdb;Username=postgres;Password=1234
+      Jwt__Key: EaS1k*904FckjS34h***3/@fFkjAlkDs
+      Jwt__Issuer: AuthService
+      Jwt__Audience: AuthServiceUsers
+    ports:
+      - "5002:8080"
+
+volumes:
+  authdb_data:
+  regdb_data:
