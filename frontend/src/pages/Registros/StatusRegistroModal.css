@@ -1,4 +1,4 @@
-.modal-overlay {
+.status-modal-overlay {
   position: fixed;
   inset: 0;
   background: rgba(17, 24, 39, 0.55);
@@ -9,76 +9,57 @@
   z-index: 1000;
 }
 
-.modal {
+.status-modal {
   width: 100%;
-  max-width: 560px;
+  max-width: 420px;
   background: #ffffff;
   border-radius: 12px;
   padding: 24px;
 }
 
-.modal-header {
+.status-modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 }
 
-.modal-header h2 {
+.status-modal-header h2 {
   margin: 0;
 }
 
-.modal-header button {
+.status-modal-header button {
   border: none;
   background: transparent;
   font-size: 28px;
   cursor: pointer;
 }
 
-.modal-form {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.modal-form label {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  font-weight: 500;
-}
-
-.modal-form input,
-.modal-form select,
-.modal-form textarea {
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  padding: 10px;
-}
-
-.modal-form textarea {
-  min-height: 90px;
-  resize: vertical;
-}
-
-.modal-erro {
-  color: #b91c1c;
-}
-
-.modal-acoes {
+.status-modal-acoes {
   display: flex;
   justify-content: flex-end;
   gap: 12px;
+  margin-top: 24px;
 }
 
-.modal-acoes button {
+.status-modal-acoes button {
   border: none;
   border-radius: 8px;
   padding: 10px 16px;
   cursor: pointer;
 }
 
-.modal-acoes button[type="submit"] {
+.status-modal-acoes button:first-child {
   background: #1f2937;
   color: white;
+}
+
+.status-modal-acoes button:last-child {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.status-modal-error {
+  color: #b91c1c;
+  margin-top: 12px;
 }

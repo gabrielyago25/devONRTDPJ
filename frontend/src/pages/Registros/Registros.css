@@ -56,3 +56,55 @@
 .registros-table tr:hover {
   background: #f9fafb;
 }
+
+.acoes {
+  display: flex;
+  gap: 8px;
+}
+
+.acao-button {
+  border: none;
+  border-radius: 6px;
+  padding: 6px 10px;
+  cursor: pointer;
+  background: #e5e7eb;
+  color: #111827;
+  font-size: 14px;
+}
+
+.acao-button:hover {
+  background: #d1d5db;
+}
+
+.acao-button.danger {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.acao-button.danger:hover {
+  background: #fecaca;
+}
+
+.registros-filtros {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.registros-filtros select,
+.registros-filtros button {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+}
+
+.registros-filtros button {
+  cursor: pointer;
+  background: #1f2937;
+  color: white;
+}
+
+.registros-filtros button:last-child {
+  background: #e5e7eb;
+  color: #111827;
+}

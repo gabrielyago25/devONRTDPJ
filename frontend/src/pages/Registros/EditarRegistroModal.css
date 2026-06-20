@@ -1,4 +1,4 @@
-.modal-overlay {
+.editar-modal-overlay {
   position: fixed;
   inset: 0;
   background: rgba(17, 24, 39, 0.55);
@@ -9,7 +9,7 @@
   z-index: 1000;
 }
 
-.modal {
+.editar-modal {
   width: 100%;
   max-width: 560px;
   background: #ffffff;
@@ -17,68 +17,68 @@
   padding: 24px;
 }
 
-.modal-header {
+.editar-modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 24px;
 }
 
-.modal-header h2 {
+.editar-modal-header h2 {
   margin: 0;
 }
 
-.modal-header button {
+.editar-modal-header button {
   border: none;
   background: transparent;
   font-size: 28px;
   cursor: pointer;
 }
 
-.modal-form {
+.editar-modal-form {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-.modal-form label {
+.editar-modal-form label {
   display: flex;
   flex-direction: column;
   gap: 6px;
   font-weight: 500;
 }
 
-.modal-form input,
-.modal-form select,
-.modal-form textarea {
+.editar-modal-form input,
+.editar-modal-form select,
+.editar-modal-form textarea {
   border: 1px solid #d1d5db;
   border-radius: 8px;
   padding: 10px;
 }
 
-.modal-form textarea {
+.editar-modal-form textarea {
   min-height: 90px;
   resize: vertical;
 }
 
-.modal-erro {
+.editar-modal-erro {
   color: #b91c1c;
 }
 
-.modal-acoes {
+.editar-modal-acoes {
   display: flex;
   justify-content: flex-end;
   gap: 12px;
 }
 
-.modal-acoes button {
+.editar-modal-acoes button {
   border: none;
   border-radius: 8px;
   padding: 10px 16px;
   cursor: pointer;
 }
 
-.modal-acoes button[type="submit"] {
+.editar-modal-acoes button[type="submit"] {
   background: #1f2937;
   color: white;
 }

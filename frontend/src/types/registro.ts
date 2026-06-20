@@ -10,3 +10,18 @@ export interface Registro {
     dataCriado: string;
     dataAtualizado: string;
 }
+
+export interface ModalRegistroRequest {
+    tipo: number;
+    nomeApresentante: string;
+    cpfCnpj: string;
+    dataEntrada: string;
+    observacoes: string;
+}
+
+export interface FiltroRegistroRequest {
+  tipo?: number;
+  status?: number;
+  pagina: number;
+  limite: number;
+}
