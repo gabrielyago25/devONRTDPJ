@@ -29,11 +29,7 @@ export function RegistrosPagina() {
         setErro("");
         setCarregando(true);
 
-        const dados = await listarRegistros({
-            tipo: tipoFiltro ? Number(tipoFiltro) : undefined,
-            status: statusFiltro ? Number(statusFiltro) : undefined,
-            pagina,
-            limite,});
+        const dados = await listarRegistros(obterFiltros())
         setRegistros(dados);
     } catch {
         setErro("Erro ao carregar registros.");
@@ -70,6 +66,28 @@ export function RegistrosPagina() {
             showToast("Erro ao excluir registro", "error");
         }
     }
+
+    function obterFiltros() {
+        return {
+            tipo: tipoFiltro ? Number(tipoFiltro) : undefined,
+            status: statusFiltro ? Number(statusFiltro) : undefined,
+            pagina,
+            limite,
+        };
+    }
+    function handleFiltrar() {
+        setPagina(1);
+        carregarRegistros();
+    }
+
+    function handleLimparFiltros() {
+        setTipoFiltro("");
+        setStatusFiltro("");
+        setPagina(1);
+        setLimite(10);
+        carregarRegistros();
+    }
+
     return (       
         <div className= "registros-pagina">
             <div className= "registros-header">
@@ -92,8 +110,8 @@ export function RegistrosPagina() {
                     <option value="3">Devolvido</option>
                 </select>
 
-                <button onClick={() => {setPagina(1); carregarRegistros()}}>Filtrar</button>
-                <button onClick={() => {setTipoFiltro(""); setStatusFiltro(""); setPagina(1); setLimite(10); carregarRegistros();}}>Limpar</button>
+                <button onClick={handleFiltrar}>Filtrar</button>
+                <button onClick={handleLimparFiltros}>Limpar</button>
             </div>
 
             <div className= "registros-card">
