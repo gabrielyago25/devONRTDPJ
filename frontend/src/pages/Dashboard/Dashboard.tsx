@@ -1,15 +1,14 @@
 import { useAuth } from "../../contexts/AuthContext";
 
-export function DashboardPage() {
+export function DashboardPagina() {
   const { signOut } = useAuth();
 
   return (
-    <main>
+    <section>
       <h1>Dashboard</h1>
 
       <p>Login realizado com sucesso.</p>
 
-      <button onClick={signOut}>Sair</button>
-    </main>
+    </section>
   );
 }

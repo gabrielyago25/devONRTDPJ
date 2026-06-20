@@ -1,0 +1,10 @@
+.app-layout {
+  min-height: 100vh;
+  background: #f3f4f6;
+}
+
+.app-content {
+  padding: 32px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
