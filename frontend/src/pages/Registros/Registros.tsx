@@ -7,6 +7,7 @@ import { formatarCpfCnpj } from "../../utils/cpfCnpj";
 import { RegistroModal } from "./NovoRegistroModal";
 import { StatusRegistroModal } from "./StatusRegistroModal";
 import { EditarRegistroModal } from "./EditarRegistroModal";
+import { useToast } from "../../contexts/ToastContext";
 import "./Registros.css";
 
 
@@ -21,6 +22,7 @@ export function RegistrosPagina() {
     const [statusFiltro, setStatusFiltro] = useState("");
     const [pagina, setPagina] = useState(1);
     const [limite, setLimite] = useState(10);
+    const {showToast} = useToast();
 
     async function carregarRegistros() {
     try {
@@ -42,7 +44,7 @@ export function RegistrosPagina() {
 
     useEffect(() => {
         carregarRegistros();
-    }, []);
+    }, [pagina, limite]);
 
 
     if (carregando) {
@@ -62,8 +64,10 @@ export function RegistrosPagina() {
         try {
             await excluirRegistro(id);
             await carregarRegistros();
+
+            showToast("Registro removido com sucesso!", "success");
         } catch {
-            alert("Erro ao excluir registro.");
+            showToast("Erro ao excluir registro", "error");
         }
     }
     return (       
@@ -88,8 +92,8 @@ export function RegistrosPagina() {
                     <option value="3">Devolvido</option>
                 </select>
 
-                <button onClick={() => carregarRegistros()}>Filtrar</button>
-                <button onClick={() => {setTipoFiltro(""); setStatusFiltro(""); setPagina(1); setLimite(10); listarRegistros({pagina: 1, limite: 10,}).then(setRegistros);}}>Limpar</button>
+                <button onClick={() => {setPagina(1); carregarRegistros()}}>Filtrar</button>
+                <button onClick={() => {setTipoFiltro(""); setStatusFiltro(""); setPagina(1); setLimite(10); carregarRegistros();}}>Limpar</button>
             </div>
 
             <div className= "registros-card">
@@ -128,6 +132,23 @@ export function RegistrosPagina() {
                         ))}
                     </tbody>
                 </table>
+            </div>
+            <div className="paginacao">
+                <button
+                    disabled={pagina === 1}
+                    onClick={() => setPagina((paginaAtual) => paginaAtual - 1)}
+                >
+                    Anterior
+                </button>
+
+                <span>Página {pagina}</span>
+
+                <button
+                    disabled={registros.length < limite}
+                    onClick={() => setPagina((paginaAtual) => paginaAtual + 1)}
+                >
+                    Próxima
+                </button>
             </div>
             {modalAberto && (<RegistroModal
                 onClose={() => setModalAberto(false)}

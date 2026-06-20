@@ -1,6 +1,7 @@
 import {useState} from "react";
 import {atualizarStatus} from "../../services/registroService";
 import type {Registro} from "../../types/registro";
+import { useToast } from "../../contexts/ToastContext";
 import "./StatusRegistroModal.css";
 
 interface StatusRegistroModalProp {
@@ -12,6 +13,7 @@ interface StatusRegistroModalProp {
 export function StatusRegistroModal({registro, onClose, onStatusAtualizado,}: StatusRegistroModalProp) {
     const [erro, setErro] = useState("");
     const [salvando, setSalvando] = useState(false);
+    const {showToast} = useToast();
 
     async function alterarStatus(status: number) {
         try {
@@ -19,11 +21,11 @@ export function StatusRegistroModal({registro, onClose, onStatusAtualizado,}: St
             setSalvando(true);
 
             await atualizarStatus(registro.id, status);
-
+            showToast("Status atualizado com sucesso!", "success");
             onStatusAtualizado();
             onClose();
         } catch {
-            setErro("Não foi possível alterar o status do registro.");
+            showToast("Não foi possível alterar o status do registro.", "error");
         } finally {
             setSalvando(false);
         }

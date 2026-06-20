@@ -108,3 +108,28 @@
   background: #e5e7eb;
   color: #111827;
 }
+
+.paginacao {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+}
+
+.paginacao button {
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  background: #1f2937;
+  color: white;
+}
+
+.paginacao button:disabled {
+  background: #d1d5db;
+  cursor: not-allowed;
+}
+
+.paginacao span {
+  font-weight: 500;
+}

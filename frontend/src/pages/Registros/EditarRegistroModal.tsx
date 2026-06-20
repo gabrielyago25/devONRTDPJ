@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { atualizarRegistro } from "../../services/registroService";
 import type { Registro } from "../../types/registro";
+import { useToast } from "../../contexts/ToastContext";
 import "./EditarRegistroModal.css";
 
 interface EditarRegistroModalProps {
@@ -17,6 +18,7 @@ export function EditarRegistroModal({registro, onClose, onRegistroAtualizado,}: 
   const [observacoes, setObservacoes] = useState(registro.observacoes ?? "");
   const [erro, setErro] = useState("");
   const [salvando, setSalvando] = useState(false);
+  const {showToast} = useToast();
 
   async function handleSubmit(event: React.FormEvent) {event.preventDefault();
 
@@ -33,9 +35,10 @@ export function EditarRegistroModal({registro, onClose, onRegistroAtualizado,}: 
       });
 
       onRegistroAtualizado();
+      showToast("Registro atualizado com sucesso!", "success");
       onClose();
     } catch {
-      setErro("Erro ao atualizar registro.");
+      showToast("Erro ao atualizar registro.", "error");
     } finally {
       setSalvando(false);
     }

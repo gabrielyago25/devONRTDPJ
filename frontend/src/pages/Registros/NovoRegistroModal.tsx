@@ -1,5 +1,6 @@
 import {useState} from "react";
 import {criarRegistro} from "../../services/registroService";
+import { useToast } from "../../contexts/ToastContext";
 import "./NovoRegistroModal.css";
 
 interface RegistroModalProp {
@@ -15,6 +16,7 @@ export function RegistroModal ({onClose, onRegistroCriado,}: RegistroModalProp) 
         const [observacoes, setObservacoes] = useState("");
         const [erro, setErro] = useState("");
         const [salvando, setSalvando] = useState(false);
+        const {showToast} = useToast();
 
         async function handleCriarRegistro(event: React.FormEvent) {
             event.preventDefault();
@@ -24,11 +26,11 @@ export function RegistroModal ({onClose, onRegistroCriado,}: RegistroModalProp) 
                 setSalvando(true);
 
                 await criarRegistro({tipo, nomeApresentante, cpfCnpj, dataEntrada, observacoes});
-
+                showToast("Registro criado com sucesso!", "success");
                 onRegistroCriado();
                 onClose();
             } catch {
-                setErro("Erro ao criar o registro, verifique os dados informados.")
+                showToast("Erro ao criar registro.", "error");
             } finally {
                 setSalvando(false);
             }
