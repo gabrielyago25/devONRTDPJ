@@ -17,3 +17,15 @@ regApi.interceptors.request.use((config) => {
 
   return config;
 });
+
+regApi.interceptors.response.use((response) => response,(error) => {
+    if (error.response?.status === 401) {
+      localStorage.removeItem("token");
+      if (window.location.pathname !== "/login") {
+        window.location.replace("/login");
+      }
+    }
+
+    return Promise.reject(error);
+  }
+);
