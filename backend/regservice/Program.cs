@@ -75,6 +75,15 @@ using (var scope = app.Services.CreateScope())
     context.Database.Migrate();
 }
 
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<RegDbContext>();
+
+    context.Database.Migrate();
+
+    RegDbSeed.Seed(context);
+}
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
