@@ -21,7 +21,7 @@ export function LoginPagina() {
       await signIn(email, senha);
 
       alert("Login realizado com sucesso!");
-      navigate("/dashboard");
+      navigate("/registros");
     } catch {
       setErro("Dados de acesso incorretos.");
     } finally {
@@ -35,8 +35,9 @@ export function LoginPagina() {
 
       <form onSubmit={handleSubmit}>
         <div>
-          <label>Email</label>
+          <label htmlFor="email">Email</label>
           <input
+            id="email"
             type="email"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
@@ -45,8 +46,9 @@ export function LoginPagina() {
         </div>
 
         <div>
-          <label>Senha</label>
+          <label htmlFor="senha">Senha</label>
           <input
+            id="senha"
             type="password"
             value={senha}
             onChange={(event) => setSenha(event.target.value)}
