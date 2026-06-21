@@ -103,7 +103,7 @@ export function RegistrosPagina() {
             {autCriar && (<button className="novo-registro-button" onClick={() => setModalAberto(true)}>+ Registro</button>)}
             </div>
 
-            <div className="registros-filtro">
+            <div className="registros-filtros">
                 <select value={tipoFiltro} onChange={(event) => setTipoFiltro(event.target.value)}>
                     <option value="">Todos os Tipos</option>
                     <option value="1">Contrato</option>
@@ -130,6 +130,7 @@ export function RegistrosPagina() {
                             <th>CPF/CNPJ</th>
                             <th>Tipo</th>
                             <th>Status</th>
+                            <th>Observações</th>
                             <th>Data Entrada</th>
                             <th>Data Criado</th>
                             <th>Última Atualização</th>
@@ -144,6 +145,7 @@ export function RegistrosPagina() {
                                 <td>{formatarCpfCnpj(registro.cpfCnpj)}</td>
                                 <td>{alterarTipoRegistros(registro.tipo)}</td>
                                 <td>{alterarStatusRegistro(registro.status)}</td>
+                                <td className="coluna-observacoes">{registro.observacoes}</td>
                                 <td>{formatarDataHora(registro.dataEntrada)}</td>
                                 <td>{formatarDataHora(registro.dataCriado)}</td>
                                 <td>{formatarDataHora(registro.dataAtualizado)}</td>

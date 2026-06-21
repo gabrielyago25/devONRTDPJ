@@ -44,3 +44,25 @@
   background: #dc2626;
   color: white;
 }
+
+@media (max-width: 768px) {
+  .exclusao-modal {
+    max-width: 100%;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .exclusao-modal-overlay {
+    align-items: flex-start;
+    padding: 16px;
+  }
+
+  .exclusao-modal-acoes {
+    flex-direction: column;
+  }
+
+  .exclusao-modal-acoes button {
+    width: 100%;
+  }
+}

@@ -3,9 +3,9 @@ import { useAuth } from "../contexts/AuthContext";
 import "./Navbar.css";
 
 export function Navbar() {
-    const {signOut} = useAuth();
+    const {usuario, role, signOut} = useAuth();
     const navigate = useNavigate();
-
+    console.log({usuario, role});
     function Desconectar() {
         signOut();
         navigate("/login");
@@ -15,10 +15,13 @@ export function Navbar() {
         <header className="navbar">
             <div className = "navbar-texto">TESTE</div>
                     <nav className = "navbar-links">
-                        <Link to="/dashboard">Dashboard</Link>
                         <Link to="/registros">Registros</Link>
                     </nav>
-
+                    <div className="navbar-user">
+                        <strong>{usuario?.nome ?? "Usuário"}</strong>
+                        <span>{usuario?.email}</span>
+                        <small>{role}</small>
+                    </div>
                     <button className= "navbar-logout" onClick={Desconectar}>Sair</button>
         </header>
     );

@@ -18,7 +18,6 @@ export function EditarRegistroModal({registro, onClose, onRegistroAtualizado,}: 
   const [cpfCnpj, setCpfCnpj] = useState(formatarCpfCnpj(registro.cpfCnpj));
   const [dataEntrada, setDataEntrada] = useState(registro.dataEntrada);
   const [observacoes, setObservacoes] = useState(registro.observacoes ?? "");
-  const [erro, setErro] = useState("");
   const [salvando, setSalvando] = useState(false);
   const {showToast} = useToast();
   const [errosCampos, setErrosCampos] = useState({nomeApresentante: "", cpfCnpj: "", dataEntrada: "",});
@@ -29,7 +28,6 @@ export function EditarRegistroModal({registro, onClose, onRegistroAtualizado,}: 
                 return;
             }
     try {
-      setErro("");
       setSalvando(true);
 
       await atualizarRegistro(registro.id, {
@@ -113,8 +111,6 @@ export function EditarRegistroModal({registro, onClose, onRegistroAtualizado,}: 
             Observações
             <textarea value={observacoes} onChange={(e) => setObservacoes(e.target.value)} />
           </label>
-
-          {erro && <p className="editar-modal-error">{erro}</p>}
 
           <div className="editar-modal-acoes">
             <button type="button" onClick={onClose}>Cancelar</button>

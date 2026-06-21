@@ -82,3 +82,25 @@
   background: #1f2937;
   color: white;
 }
+
+@media (max-width: 768px) {
+  .editar-modal {
+    max-width: 100%;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .editar-modal-overlay {
+    align-items: flex-start;
+    padding: 16px;
+  }
+
+  .editar-modal-acoes {
+    flex-direction: column;
+  }
+
+  .editar-modal-acoes button {
+    width: 100%;
+  }
+}

@@ -13,9 +13,9 @@
   align-items: center;
 }
 
-.registros-header h1 {
-  margin: 0;
-  font-size: 32px;
+.registros-header p {
+  margin: 4px 0 0;
+  color: #6b7280;
 }
 
 .novo-registro-button {
@@ -144,4 +144,52 @@
 
 .paginacao span {
   font-weight: 500;
+}
+
+.coluna-observacoes {
+  max-width: 240px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 768px) {
+  .registros-pagina {
+    padding: 12px;
+  }
+
+  .registros-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .novo-registro-button {
+    width: 100%;
+  }
+
+  .registros-filtros {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .registros-filtros select,
+  .registros-filtros button {
+    width: 100%;
+  }
+
+  .registros-card {
+    padding: 12px;
+  }
+
+  .paginacao {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .acoes {
+    flex-wrap: nowrap;
+  }
 }
