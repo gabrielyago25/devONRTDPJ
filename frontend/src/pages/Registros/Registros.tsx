@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { listarRegistros, excluirRegistro } from "../../services/registroService";
+import { ConfirmarExclusaoModal } from "./ConfirmarExclusaoModal";
 import type { Registro } from "../../types/registro";
 import { alterarStatusRegistro, alterarTipoRegistros } from "../../utils/registrosEnums";
 import { formatarDataHora } from "../../utils/dataFormat";
@@ -20,6 +21,7 @@ export function RegistrosPagina() {
     const [modalAberto, setModalAberto] = useState(false);
     const [registroStatus, setRegistroStatus] = useState<Registro | null>(null);
     const [registroEdicao, setRegistroEdicao] = useState<Registro | null>(null);
+    const [registroExclusao, setRegistroExclusao] = useState<Registro | null>(null);
     const [tipoFiltro, setTipoFiltro] = useState("");
     const [statusFiltro, setStatusFiltro] = useState("");
     const [pagina, setPagina] = useState(1);
@@ -63,11 +65,6 @@ export function RegistrosPagina() {
     }
 
     async function removeRegistro(id:string) {
-        const confirmar = window.confirm("Deseja excluir o registro?");
-
-        if(!confirmar) {
-            return;
-        }
         try {
             await excluirRegistro(id);
             await carregarRegistros();
@@ -155,7 +152,7 @@ export function RegistrosPagina() {
                                         <div className="acoes">
                                         {autEditar && (<button className="acoes-button" onClick={() => setRegistroEdicao(registro)}>Editar</button>)}
                                         {autAlterarStatus && (<button className="acoes-button" onClick={() => setRegistroStatus(registro)}>Ação</button>)}
-                                        {autExcluir && (<button className="acoes-button" onClick={() => removeRegistro(registro.id)}>Excluir</button>)}                                      
+                                        {autExcluir && (<button className="acoes-button" onClick={() => setRegistroExclusao(registro)}>Excluir</button>)}                                      
                                         </div>
                                     </td>
                                     )}
@@ -194,6 +191,13 @@ export function RegistrosPagina() {
                 registro={registroEdicao}
                 onClose={() => setRegistroEdicao(null)}
                 onRegistroAtualizado={carregarRegistros}/>)}
+
+            {registroExclusao && (<ConfirmarExclusaoModal
+                registro={registroExclusao}
+                onClose={() => setRegistroExclusao(null)}
+                onConfirmar={async () => {
+                await removeRegistro(registroExclusao.id);
+                setRegistroExclusao(null);}}/>)}
         </div>
     )
 }
