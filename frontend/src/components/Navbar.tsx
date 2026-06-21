@@ -5,7 +5,6 @@ import "./Navbar.css";
 export function Navbar() {
     const {usuario, role, signOut} = useAuth();
     const navigate = useNavigate();
-    console.log({usuario, role});
     function Desconectar() {
         signOut();
         navigate("/login");
