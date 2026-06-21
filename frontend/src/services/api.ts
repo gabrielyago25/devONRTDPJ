@@ -1,4 +1,5 @@
 import axios from "axios";
+import { acessoExpirado } from "./authSession";
 
 export const authApi = axios.create({
   baseURL: "http://localhost:5001/api",
@@ -20,7 +21,7 @@ regApi.interceptors.request.use((config) => {
 
 regApi.interceptors.response.use((response) => response,(error) => {
     if (error.response?.status === 401) {
-      localStorage.removeItem("token");
+      acessoExpirado();
       if (window.location.pathname !== "/login") {
         window.location.replace("/login");
       }
