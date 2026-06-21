@@ -9,6 +9,12 @@ vi.mock("../contexts/AuthContext", () => ({
   }),
 }));
 
+vi.mock("../contexts/ToastContext", () => ({
+  useToast: () => ({
+    showToast: vi.fn(),
+  }),
+}));
+
 describe("LoginPagina", () => {
   it("deve renderizar os campos de email, senha e o botão entrar", () => {
     render(

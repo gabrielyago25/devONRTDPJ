@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { RegistrosPagina } from "../pages/Registros/Registros";
@@ -33,7 +33,7 @@ vi.mock("../services/registroService", () => ({
   excluirRegistro: vi.fn(),
   criarRegistro: vi.fn(),
   atualizarRegistro: vi.fn(),
-  atualizarStatusRegistro: vi.fn(),
+  atualizarStatus: vi.fn(),
 }));
 
 const registrosMock = [
@@ -93,13 +93,12 @@ describe("RegistrosPagina", () => {
     await user.selectOptions(screen.getByDisplayValue("Todos os Tipos"), "1");
     await user.selectOptions(screen.getByDisplayValue("Todos os Status"), "2");
 
-    await user.click(screen.getByRole("button", { name: /filtrar/i }));
-
-    expect(mocks.listarRegistros).toHaveBeenLastCalledWith({
-      tipo: 1,
-      status: 2,
-      pagina: 1,
-      limite: 10,
+    await waitFor(() => {expect(mocks.listarRegistros).toHaveBeenLastCalledWith({
+        tipo: 1,
+        status: 2,
+        pagina: 1,
+        limite: 10,
+      });
     });
   });
 });
