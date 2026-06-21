@@ -31,7 +31,6 @@ export function LoginPagina() {
 
       await signIn(email, senha);
 
-      alert("Login realizado com sucesso!");
       navigate("/registros");
     } catch {
       setErro("Dados de acesso incorretos.");
