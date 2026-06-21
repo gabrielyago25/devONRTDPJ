@@ -8,6 +8,8 @@ import { RegistroModal } from "./NovoRegistroModal";
 import { StatusRegistroModal } from "./StatusRegistroModal";
 import { EditarRegistroModal } from "./EditarRegistroModal";
 import { useToast } from "../../contexts/ToastContext";
+import {useAuth} from "../../contexts/AuthContext";
+
 import "./Registros.css";
 
 
@@ -23,6 +25,15 @@ export function RegistrosPagina() {
     const [pagina, setPagina] = useState(1);
     const [limite, setLimite] = useState(10);
     const {showToast} = useToast();
+    const { role } = useAuth();
+
+    // necessário para a aparecer/esconder os botões no front-end 
+    const autCriar = role === "Administrador" || role === "Registrador";
+    const autEditar = role === "Administrador" || role === "Registrador";
+    const autAlterarStatus = role === "Administrador" || role === "Registrador";
+    const autExcluir = role === "Administrador";
+
+    const exibirAcoes = autEditar || autAlterarStatus || autExcluir;
 
     async function carregarRegistros() {
     try {
@@ -92,7 +103,7 @@ export function RegistrosPagina() {
         <div className= "registros-pagina">
             <div className= "registros-header">
             <h1>Registros</h1>
-            <button className="novo-registro-button" onClick={() => setModalAberto(true)}>+ Registro</button>
+            {autCriar && (<button className="novo-registro-button" onClick={() => setModalAberto(true)}>+ Registro</button>)}
             </div>
 
             <div className="registros-filtro">
@@ -118,14 +129,14 @@ export function RegistrosPagina() {
                 <table className= "registros-table">
                     <thead>
                         <tr>
-                            <th>Nome</th>
+                            <th>Apresentante</th>
                             <th>CPF/CNPJ</th>
                             <th>Tipo</th>
                             <th>Status</th>
                             <th>Data Entrada</th>
                             <th>Data Criado</th>
                             <th>Última Atualização</th>
-                            <th>Ações</th>
+                            {exibirAcoes && <th>Ações</th>}
                         </tr>
                     </thead>
 
@@ -139,13 +150,15 @@ export function RegistrosPagina() {
                                 <td>{formatarDataHora(registro.dataEntrada)}</td>
                                 <td>{formatarDataHora(registro.dataCriado)}</td>
                                 <td>{formatarDataHora(registro.dataAtualizado)}</td>
-                                <td>
-                                    <div className="acoes">
-                                        <button className="acoes-button" onClick={() => setRegistroEdicao(registro)}>Editar</button>
-                                        <button className="acoes-button" onClick={() => setRegistroStatus(registro)}>Ação</button>
-                                        <button className="acoes-button" onClick={() => removeRegistro(registro.id)}>Excluir</button>
-                                    </div>
-                                </td>
+                                {exibirAcoes && (
+                                    <td>
+                                        <div className="acoes">
+                                        {autEditar && (<button className="acoes-button" onClick={() => setRegistroEdicao(registro)}>Editar</button>)}
+                                        {autAlterarStatus && (<button className="acoes-button" onClick={() => setRegistroStatus(registro)}>Ação</button>)}
+                                        {autExcluir && (<button className="acoes-button" onClick={() => removeRegistro(registro.id)}>Excluir</button>)}                                      
+                                        </div>
+                                    </td>
+                                    )}
                             </tr>
                         ))}
                     </tbody>
