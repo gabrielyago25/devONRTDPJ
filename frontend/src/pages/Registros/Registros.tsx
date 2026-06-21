@@ -162,20 +162,10 @@ export function RegistrosPagina() {
                 </table>
             </div>
             <div className="paginacao">
-                <button
-                    disabled={pagina === 1}
-                    onClick={() => setPagina((paginaAtual) => paginaAtual - 1)}
-                >
-                    Anterior
+                <button disabled={pagina === 1} onClick={() => setPagina((paginaAtual) => paginaAtual - 1)}>Anterior
                 </button>
-
-                <span>Página {pagina}</span>
-
-                <button
-                    disabled={registros.length < limite}
-                    onClick={() => setPagina((paginaAtual) => paginaAtual + 1)}
-                >
-                    Próxima
+                <span>{pagina}</span>
+                <button disabled={registros.length < limite} onClick={() => setPagina((paginaAtual) => paginaAtual + 1)}>Próxima
                 </button>
             </div>
             {modalAberto && (<RegistroModal

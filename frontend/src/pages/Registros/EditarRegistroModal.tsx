@@ -2,6 +2,8 @@ import { useState } from "react";
 import { atualizarRegistro } from "../../services/registroService";
 import type { Registro } from "../../types/registro";
 import { useToast } from "../../contexts/ToastContext";
+import { apenasNumeros } from "../../utils/cpfCnpj";
+import { formatarCpfCnpj } from "../../utils/cpfCnpj";
 import "./EditarRegistroModal.css";
 
 interface EditarRegistroModalProps {
@@ -13,15 +15,19 @@ interface EditarRegistroModalProps {
 export function EditarRegistroModal({registro, onClose, onRegistroAtualizado,}: EditarRegistroModalProps) {
   const [tipo, setTipo] = useState(registro.tipo);
   const [nomeApresentante, setNomeApresentante] = useState(registro.nomeApresentante);
-  const [cpfCnpj, setCpfCnpj] = useState(registro.cpfCnpj);
+  const [cpfCnpj, setCpfCnpj] = useState(formatarCpfCnpj(registro.cpfCnpj));
   const [dataEntrada, setDataEntrada] = useState(registro.dataEntrada);
   const [observacoes, setObservacoes] = useState(registro.observacoes ?? "");
   const [erro, setErro] = useState("");
   const [salvando, setSalvando] = useState(false);
   const {showToast} = useToast();
+  const [errosCampos, setErrosCampos] = useState({nomeApresentante: "", cpfCnpj: "", dataEntrada: "",});
 
-  async function handleSubmit(event: React.FormEvent) {event.preventDefault();
-
+  async function handleSubmit(event: React.FormEvent) {
+    event.preventDefault();
+    if (!validarFormulario()) {
+                return;
+            }
     try {
       setErro("");
       setSalvando(true);
@@ -29,7 +35,7 @@ export function EditarRegistroModal({registro, onClose, onRegistroAtualizado,}: 
       await atualizarRegistro(registro.id, {
         tipo,
         nomeApresentante,
-        cpfCnpj,
+        cpfCnpj: apenasNumeros(cpfCnpj),
         dataEntrada,
         observacoes,
       });
@@ -43,6 +49,29 @@ export function EditarRegistroModal({registro, onClose, onRegistroAtualizado,}: 
       setSalvando(false);
     }
   }
+
+  function validarFormulario() {
+            const formErros = {nomeApresentante: "", cpfCnpj: "", dataEntrada: ""};
+
+            if (!nomeApresentante.trim()) {
+                formErros.nomeApresentante = "Informe o nome do apresentante."
+            }
+
+            const cpfCnpjNumeros = apenasNumeros(cpfCnpj);
+
+            if (!cpfCnpjNumeros) {
+                formErros.cpfCnpj = "Informe o CPF/CNPJ.";
+            } else if (cpfCnpjNumeros.length !== 11 && cpfCnpjNumeros.length !== 14){
+                formErros.cpfCnpj = "CPF/CNPJ deve ter 11 ou 14 dígitos."
+            }
+            if (!dataEntrada) {
+                formErros.dataEntrada = "Informe a data de entrada.";
+            }
+
+            setErrosCampos(formErros);
+
+            return !Object.values(formErros).some((erro => erro))
+        }
 
   return (
     <div className="editar-modal-overlay">
@@ -64,17 +93,20 @@ export function EditarRegistroModal({registro, onClose, onRegistroAtualizado,}: 
 
           <label>
             Apresentante
-            <input value={nomeApresentante} onChange={(e) => setNomeApresentante(e.target.value)} required />
+              <input type="text" value={nomeApresentante} onChange={(event) => setNomeApresentante(event.target.value)}></input>
+              {errosCampos.nomeApresentante && (<span className="campo-erro">{errosCampos.nomeApresentante}</span>)}
           </label>
 
           <label>
             CPF/CNPJ
-            <input value={cpfCnpj} onChange={(e) => setCpfCnpj(e.target.value)} required />
+              <input type="text" value={cpfCnpj} onChange={(event) => setCpfCnpj(formatarCpfCnpj(event.target.value))}></input>
+              {errosCampos.cpfCnpj && (<span className="campo-erro">{errosCampos.cpfCnpj}</span>)}
           </label>
 
           <label>
             Data de Entrada
-            <input type="date" value={dataEntrada} onChange={(e) => setDataEntrada(e.target.value)} required />
+              <input type="date" value={dataEntrada} onChange={(event) => setDataEntrada(event.target.value)}></input>
+              {errosCampos.dataEntrada && (<span className="campo-erro">{errosCampos.dataEntrada}</span>)}
           </label>
 
           <label>
