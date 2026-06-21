@@ -14,7 +14,7 @@ export function ConfirmarExclusaoModal({registro, onClose, onConfirmar,}: Confir
       <div className="exclusao-modal">
         <h2>Excluir registro</h2>
 
-        <p>Tem certeza que deseja excluir o registro?</p>
+        <p>Tem certeza que deseja excluir o registro de <strong>{registro.nomeApresentante}</strong>?</p>
 
         <p className="exclusao-alerta">Essa ação não poderá ser desfeita.</p>
 
