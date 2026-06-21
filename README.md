@@ -4,28 +4,28 @@
 
 ### Backend
 
-- .NET 10
-- ASP.NET Core Web API
-- Entity Framework Core
-- PostgreSQL
-- JWT Bearer Authentication
-- BCrypt
-- Swagger/OpenAPI
+* .NET 10
+* ASP.NET Core Web API
+* Entity Framework Core
+* PostgreSQL
+* JWT Bearer Authentication
+* BCrypt
+* Swagger/OpenAPI
 
 ### Frontend
 
-- React
-- TypeScript
-- Vite
-- React Router
-- Axios
+* React
+* TypeScript
+* Vite
+* React Router
+* Axios
 
 ### Infraestrutura
 
-- Docker
-- Docker Compose
-- Nginx
-- PostgreSQL
+* Docker
+* Docker Compose
+* Nginx
+* PostgreSQL
 
 ## Estrutura
 
@@ -144,10 +144,10 @@ Um registro com status `Registrado` é considerado finalizado e não pode retorn
 
 A listagem permite:
 
-- Filtrar por tipo.
-- Filtrar por status.
-- Navegar entre páginas.
-- Paginação com limite de 10 registros por página.
+* Filtrar por tipo.
+* Filtrar por status.
+* Navegar entre páginas.
+* Paginação com limite de 10 registros por página.
 
 ## Usuários criados automaticamente
 
@@ -169,8 +169,8 @@ Senha padrão:
 
 ### Pré-requisitos
 
-- Docker Desktop
-- Docker Compose
+* Docker Desktop
+* Docker Compose
 
 ### Iniciar a aplicação
 
@@ -249,12 +249,12 @@ Após o login, o AuthService gera um JWT com validade de uma hora.
 
 O frontend:
 
-- Armazena o access token.
-- Envia o token nas requisições ao RegService.
-- Verifica a expiração da sessão.
-- Remove tokens expirados.
-- Redireciona o usuário para o login.
-- Exibe uma mensagem informando que a sessão expirou.
+* Armazena o access token.
+* Envia o token nas requisições ao RegService.
+* Verifica a expiração da sessão.
+* Remove tokens expirados.
+* Redireciona o usuário para o login.
+* Exibe uma mensagem informando que a sessão expirou.
 
 ## Testes automatizados
 
@@ -275,20 +275,20 @@ dotnet test
 
 Os testes atuais verificam:
 
-- Cadastro de usuário.
-- Perfil padrão de novos usuários.
-- Hash de senha.
-- Login válido.
-- Login com senha inválida.
-- Cadastro com e-mail repetido.
-- Alteração de perfil.
-- Criação de registro.
-- Validação de CPF.
-- Validação de CNPJ.
-- Transições válidas de status.
-- Transição inválida de status.
-- Busca de registro inexistente.
-- Exclusão de registro.
+* Cadastro de usuário.
+* Perfil padrão de novos usuários.
+* Hash de senha.
+* Login válido.
+* Login com senha inválida.
+* Cadastro com e-mail repetido.
+* Alteração de perfil.
+* Criação de registro.
+* Validação de CPF.
+* Validação de CNPJ.
+* Transições válidas de status.
+* Transição inválida de status.
+* Busca de registro inexistente.
+* Exclusão de registro.
 
 ### Frontend
 
@@ -308,11 +308,11 @@ npm run test
 
 Os testes atuais verificam:
 
-- Renderização da página de login.
-- Ações disponíveis para o perfil Consulta.
-- Ações disponíveis para o perfil Administrador.
-- Aplicação dos filtros de tipo e status.
-- Inicialização básica do ambiente de testes.
+* Renderização da página de login.
+* Ações disponíveis para o perfil Consulta.
+* Ações disponíveis para o perfil Administrador.
+* Aplicação dos filtros de tipo e status.
+* Inicialização básica do ambiente de testes.
 
 ### Outras verificações
 
@@ -341,28 +341,28 @@ A interface oculta ações não permitidas, mas a segurança não depende do fro
 
 A interface possui adaptações para dispositivos móveis:
 
-- Filtros empilhados.
-- Botões ocupando a largura disponível.
-- Modais com rolagem.
-- Tabela com rolagem horizontal.
-- Toasts adaptáveis para telas menores.
+* Filtros empilhados.
+* Botões ocupando a largura disponível.
+* Modais com rolagem.
+* Tabela com rolagem horizontal.
+* Toasts adaptáveis para telas menores.
 
 ## Limitações e possíveis melhorias
 
-- Refresh token.
-- Bloqueio de login para usuários inativos.
-- Variáveis de ambiente para URLs do frontend.
-- Paginação com total de registros e páginas.
-- Limitação do tamanho máximo da página (evitar consultas gigantes)
-- Ordenação na lista dos registros
+* Refresh token.
+* Bloqueio de login para usuários inativos.
+* Variáveis de ambiente para URLs do frontend.
+* Paginação com total de registros e páginas.
+* Limitação do tamanho máximo da página (evitar consultas gigantes)
+* Ordenação na lista dos registros
 
 ## Considerações finais
 
 O projeto prioriza:
 
-- Separação de responsabilidades.
-- Regras de autorização no backend.
-- Distribuir as funcionalidades em componentes.
-- Validação das regras de negócio.
-- Facilidade de execução.
-- Experiência consistente no desktop e mobile.
+* Separação de responsabilidades.
+* Regras de autorização no backend.
+* Distribuir as funcionalidades em componentes.
+* Validação das regras de negócio.
+* Facilidade de execução.
+* Experiência consistente no desktop e mobile.
