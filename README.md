@@ -347,11 +347,11 @@ A interface possui adaptações para dispositivos móveis:
 * Tabela com rolagem horizontal.
 * Toasts adaptáveis para telas menores.
 
-## Limitações e possíveis melhorias
+## Possíveis melhorias
 
 * Refresh token.
 * Bloqueio de login para usuários inativos.
-* Variáveis de ambiente para URLs do frontend.
+* Gerenciamento seguro de configurações e chaves por ambiente (como URLs do frontend e chaves do backend), sem versioná-los no repositório.
 * Paginação com total de registros e páginas.
 * Limitação do tamanho máximo da página (evitar consultas gigantes)
 * Ordenação na lista dos registros
