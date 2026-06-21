@@ -7,5 +7,5 @@ public interface IAuthService
     LoginResponse Login(LoginRequest request);
     void Register(RegisterRequest request);
     void AlterarRole(Guid usuarioId, AlterarRoleRequest request);
-     List<Usuario> ListarUsuarios();
+     List<UsuarioResponse> ListarUsuarios();
 }

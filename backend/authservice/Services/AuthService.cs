@@ -20,22 +20,6 @@ public class AuthService : IAuthService
         _config = config;
         _context = context;
     }
- /*   private static void CriarUsuariosPadrao()
-    {
-        if (Usuarios.Any())
-            return;
-
-        Usuarios.Add(new Usuario
-        {
-            Id = Guid.Parse("11111111-1111-1111-1111-111111111111"),
-            Nome = "Administrador",
-            Email = "admin@teste.com",
-            SenhaHash = BCrypt.Net.BCrypt.HashPassword("12345678"),
-            Role = RoleUsuario.Administrador,
-            Ativo = true
-        });
-    }
-*/
     public void Register(RegisterRequest request)
     {
         var emailExistente = _context.Usuarios.Any(u => u.Email == request.Email);
@@ -110,8 +94,15 @@ public class AuthService : IAuthService
         usuario.Role = request.Role;
         _context.SaveChanges();
     }
-    public List<Usuario> ListarUsuarios()
+    public List<UsuarioResponse> ListarUsuarios()
     {
-        return _context.Usuarios.ToList();
+        return _context.Usuarios.Select(usuario => new UsuarioResponse
+        {
+            Id = usuario.Id,
+            Nome = usuario.Nome,
+            Email = usuario.Email,
+            Role = usuario.Role,
+            Ativo = usuario.Ativo
+        }).ToList();
     }
 }
