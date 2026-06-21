@@ -35,7 +35,7 @@ services:
 
   authservice:
     build:
-      context: ./authservice
+      context: ./backend/authservice
       dockerfile: Dockerfile
     container_name: authservice
     depends_on:
@@ -53,7 +53,7 @@ services:
 
   regservice:
     build:
-      context: ./regservice
+      context: ./backend/regservice
       dockerfile: Dockerfile
     container_name: regservice
     depends_on:
@@ -70,6 +70,17 @@ services:
       Jwt__Audience: AuthServiceUsers
     ports:
       - "5002:8080"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: frontend
+    depends_on:
+      - authservice
+      - regservice
+    ports:
+      - "5173:80"
 
 volumes:
   authdb_data:
