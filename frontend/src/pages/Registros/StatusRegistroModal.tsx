@@ -32,11 +32,11 @@ export function StatusRegistroModal({registro, onClose, onStatusAtualizado,}: St
     }
     return (
         <div className="status-modal-overlay">
-            <div className="status-modal">
+            <div className="status-modal" role="dialog" aria-modal="true" aria-labelledby="status-registro-titulo">
                 <header className="status-modal-header">
-                    <h2>Alterar Status
+                    <h2 id="status-registro-titulo">Alterar Status
                     </h2>
-                    <button type="button" onClick={onClose}>×</button>
+                    <button type="button" onClick={onClose} aria-label="Fechar">×</button>
                 </header>
                 <p>Registro de <strong>{registro.nomeApresentante}</strong>.</p>
                 {erro && <p className="status-modal-error">{erro}</p>}

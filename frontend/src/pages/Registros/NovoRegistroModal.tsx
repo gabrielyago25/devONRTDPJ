@@ -67,10 +67,10 @@ export function RegistroModal ({onClose, onRegistroCriado,}: RegistroModalProp) 
 
         return (
             <div className= "modal-overlay">
-                <div className= "modal">
+                <div className= "modal" role="dialog" aria-modal="true" aria-labelledby="novo-registro-titulo">
                     <header className = "modal-header">
-                        <h2>Inclusão de Novo Registro</h2>
-                        <button type="button" onClick={onClose}>×</button>
+                        <h2 id="novo-registro-titulo">Inclusão de Novo Registro</h2>
+                        <button type="button" onClick={onClose} aria-label="Fechar">×</button>
                     </header>
 
                     <form onSubmit={handleCriarRegistro} className="modal-form">

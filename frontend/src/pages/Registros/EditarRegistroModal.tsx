@@ -73,10 +73,10 @@ export function EditarRegistroModal({registro, onClose, onRegistroAtualizado,}: 
 
   return (
     <div className="editar-modal-overlay">
-      <div className="editar-modal">
+      <div className="editar-modal" role="dialog" aria-modal="true" aria-labelledby="editar-registro-titulo">
         <header className="editar-modal-header">
-          <h2>Editar Registro</h2>
-          <button type="button" onClick={onClose}>×</button>
+          <h2 id="editar-registro-titulo">Editar Registro</h2>
+          <button type="button" onClick={onClose} aria-label="Fechar">×</button>
         </header>
 
         <form onSubmit={handleSubmit} className="editar-modal-form">

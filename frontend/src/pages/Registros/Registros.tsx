@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { listarRegistros, excluirRegistro } from "../../services/registroService";
 import { ConfirmarExclusaoModal } from "./ConfirmarExclusaoModal";
 import type { Registro } from "../../types/registro";
 import { alterarStatusRegistro, alterarTipoRegistros } from "../../utils/registrosEnums";
-import { formatarDataHora } from "../../utils/dataFormat";
+import { formatarDataHora, formatarData } from "../../utils/dataFormat";
 import { formatarCpfCnpj } from "../../utils/cpfCnpj";
 import { RegistroModal } from "./NovoRegistroModal";
 import { StatusRegistroModal } from "./StatusRegistroModal";
@@ -13,6 +13,7 @@ import {useAuth} from "../../contexts/AuthContext";
 
 import "./Registros.css";
 
+type FiltrosRegistros = {tipo?: number; status?: number; pagina: number; limite: number;};
 
 export function RegistrosPagina() {
     const [registros, setRegistros] = useState<Registro[]>([]);
@@ -37,23 +38,33 @@ export function RegistrosPagina() {
 
     const exibirAcoes = autEditar || autAlterarStatus || autExcluir;
 
-    async function carregarRegistros() {
-    try {
-        setErro("");
-        setCarregando(true);
+    const obterFiltros = useCallback(() => {
+        return {
+            tipo: tipoFiltro ? Number(tipoFiltro) : undefined,
+            status: statusFiltro ? Number(statusFiltro) : undefined,
+            pagina,
+            limite,
+        };
+    }, [tipoFiltro, statusFiltro, pagina, limite]);
 
-        const dados = await listarRegistros(obterFiltros())
-        setRegistros(dados);
-    } catch {
-        setErro("Erro ao carregar registros.");
-    } finally {
-        setCarregando(false);
-    }
-    }
+    const carregarRegistros = useCallback(async (filtros? : FiltrosRegistros) => {
+        try {
+            setErro("");
+            setCarregando(true);
+
+            const dados = await listarRegistros(filtros ?? obterFiltros());
+            setRegistros(dados);
+        } catch {
+            setErro("Erro ao carregar registros.");
+        } finally {
+            setCarregando(false);
+        }
+    }, [obterFiltros]);
 
     useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         carregarRegistros();
-    }, [pagina, limite]);
+    }, [carregarRegistros]);
 
 
     if (carregando) {
@@ -75,25 +86,11 @@ export function RegistrosPagina() {
         }
     }
 
-    function obterFiltros() {
-        return {
-            tipo: tipoFiltro ? Number(tipoFiltro) : undefined,
-            status: statusFiltro ? Number(statusFiltro) : undefined,
-            pagina,
-            limite,
-        };
-    }
-    function handleFiltrar() {
-        setPagina(1);
-        carregarRegistros();
-    }
-
     function handleLimparFiltros() {
         setTipoFiltro("");
         setStatusFiltro("");
         setPagina(1);
         setLimite(10);
-        carregarRegistros();
     }
 
     return (       
@@ -104,21 +101,20 @@ export function RegistrosPagina() {
             </div>
 
             <div className="registros-filtros">
-                <select value={tipoFiltro} onChange={(event) => setTipoFiltro(event.target.value)}>
+                <select value={tipoFiltro} onChange={(event) => {setTipoFiltro(event.target.value); setPagina(1);}}>
                     <option value="">Todos os Tipos</option>
                     <option value="1">Contrato</option>
                     <option value="2">Procuração</option>
                     <option value="3">Notificação</option>
                 </select>
 
-                <select value={statusFiltro} onChange={(event) => setStatusFiltro(event.target.value)}>
+                <select value={statusFiltro} onChange={(event) => {setStatusFiltro(event.target.value); setPagina(1)}}>
                     <option value="">Todos os Status</option>
                     <option value="1">Pendente</option>
                     <option value="2">Registrado</option>
                     <option value="3">Devolvido</option>
                 </select>
 
-                <button onClick={handleFiltrar}>Filtrar</button>
                 <button onClick={handleLimparFiltros}>Limpar</button>
             </div>
 
@@ -146,7 +142,7 @@ export function RegistrosPagina() {
                                 <td>{alterarTipoRegistros(registro.tipo)}</td>
                                 <td>{alterarStatusRegistro(registro.status)}</td>
                                 <td className="coluna-observacoes">{registro.observacoes}</td>
-                                <td>{formatarDataHora(registro.dataEntrada)}</td>
+                                <td>{formatarData(registro.dataEntrada)}</td>
                                 <td>{formatarDataHora(registro.dataCriado)}</td>
                                 <td>{formatarDataHora(registro.dataAtualizado)}</td>
                                 {exibirAcoes && (

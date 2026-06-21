@@ -11,8 +11,8 @@ interface ConfirmarExclusaoModalProps {
 export function ConfirmarExclusaoModal({registro, onClose, onConfirmar,}: ConfirmarExclusaoModalProps) {
   return (
     <div className="exclusao-modal-overlay">
-      <div className="exclusao-modal">
-        <h2>Excluir registro</h2>
+      <div className="exclusao-modal" role="dialog" aria-modal="true" aria-labelledby="excluir-registro-titulo">
+        <h2 id="excluir-registro-titulo">Excluir registro</h2>
 
         <p>Tem certeza que deseja excluir o registro de <strong>{registro.nomeApresentante}</strong>?</p>
 

@@ -71,7 +71,7 @@
   gap: 8px;
 }
 
-.acao-button {
+.acoes-button {
   border: none;
   border-radius: 6px;
   padding: 6px 10px;
@@ -81,16 +81,16 @@
   font-size: 14px;
 }
 
-.acao-button:hover {
+.acoes-button:hover {
   background: #d1d5db;
 }
 
-.acao-button.danger {
+.acoes-button.danger {
   background: #fee2e2;
   color: #991b1b;
 }
 
-.acao-button.danger:hover {
+.acoes-button.danger:hover {
   background: #fecaca;
 }
 
