@@ -347,14 +347,17 @@ A interface possui adaptações para dispositivos móveis:
 * Tabela com rolagem horizontal.
 * Toasts adaptáveis para telas menores.
 
-## Possíveis melhorias
+## O que eu faria diferente com mais tempo / Possíveis melhorias
 
 * Refresh token.
 * Bloqueio de login para usuários inativos.
+* Página própria para gerenciamento de usuários
 * Gerenciamento seguro de configurações e chaves por ambiente (como URLs do frontend e chaves do backend), sem versioná-los no repositório.
 * Paginação com total de registros e páginas.
 * Limitação do tamanho máximo da página (evitar consultas gigantes)
 * Ordenação na lista dos registros
+* Correção no retorno dos toasts de erros
+* Melhorar estilização do projeto
 
 ## Considerações finais
 
